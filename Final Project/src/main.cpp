@@ -78,6 +78,7 @@ int main()
 
   // initialize stuff here
   initTimer1();
+  initMotor();
 
   while (1)
   {
@@ -133,6 +134,29 @@ int main()
     } */ 
 
   }
+
+  // MOTOR TESTING //
+  // Motor Setup
+  int speed = analogRead(readPotPin()) / 4;
+  bool direction = true;   // true = forward; false = backward
+
+  // Open food door
+  setMotor(speed, direction);
+  delay(2000);  // Time it takes for door to open
+
+  // Once door is open, stop motor
+  setMotor(0, direction);
+
+  // Time door remains open for food to pour into bowl
+  delay(5000);  // TODO: need to change this to a variable depending on dog size
+
+  // Close food door
+  direction = false;
+  setMotor(speed, direction);
+  delay(2000);  // Time it takes for door to close
+
+  // Once door is shut, stop motor
+  setMotor(0, direction);
 }
 
 ISR(PCINT0_vect){
